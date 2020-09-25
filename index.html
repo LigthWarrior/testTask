@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add text to the page</title>
+  <style>         
+    .green {
+      color: green;      
+    }
+    .red {
+      color: red;      
+    }    
+  </style>
+</head>
+<body>
+  <div id="wall"></div>
+  <form name="publish">    
+    <input type="text" name="message" placeholder="Enter text" maxlength="40" size="50">
+    <input type="button" name="button" value="Send">  
+  </form> 
+  <script>
+    function insertMessage() {
+      let text = publish.message.value;
+      
+      let message = document.createElement('div');
+      message.classList.add(checkString(text));
+      message.textContent = text;          
+      
+      wall.prepend(message);
+
+      publish.message.value = "";
+    }
+
+    function checkString(str) {
+      const classNameGreen = 'green';      
+      const classNameRed = 'red';
+      
+      let sSimbols = "~`!@#$%^&*+=-[]\\\';,/{}|\":<>?";
+     
+      for (let char of str) {
+        if (sSimbols.indexOf(char) != -1) return classNameRed;
+      }
+
+      if(str.length > 3) return classNameGreen;
+    }
+
+    publish.message.onkeydown = function(event) {      
+      if (event.code == 'Enter') {        
+        event.preventDefault();
+        insertMessage();        
+      }      
+    };
+
+    publish.button.onclick = insertMessage;
+  </script>
+</body>
+</html>
